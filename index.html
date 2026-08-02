@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>لسان | Lisan - اكتسب اللغة بالمعايشة الواقعية</title>
+  
+  <!-- PWA & Mobile Meta Tags -->
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="لسان">
+  <meta name="description" content="تطبيق لسان لتعلّم اللغات بالتجربة الواقعية والذكاء الاصطناعي">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+
+  <!-- Fonts: Cairo & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'sans-serif'],
+            en: ['Plus Jakarta Sans', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              dark: '#0d1527',
+              card: '#131f37'
+            },
+            accent: {
+              purple: '#6366f1',
+              amber: '#f59e0b',
+              rose: '#f43f5e'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar & Glassmorphism Utilities */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    
+    .glass-card {
+      background: rgba(19, 31, 55, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    .glass-card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .glass-card-hover:hover {
+      transform: translateY(-3px);
+      border-color: rgba(16, 185, 129, 0.3);
+      box-shadow: 0 12px 30px -10px rgba(16, 185, 129, 0.15);
+    }
+
+    .pulse-glow {
+      animation: pulseGlow 2s infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); }
+      100% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); }
+    }
+  </style>
+</head>
+<body class="bg-[#0b1120] text-slate-100 font-sans antialiased min-h-screen selection:bg-brand-500 selection:text-white pb-20 md:pb-0">
+
+  <div class="flex min-h-screen overflow-hidden">
+    
+    <!-- ==================== 1. SIDEBAR (Desktop Nav) ==================== -->
+    <aside class="hidden md:flex flex-col w-64 bg-brand-card/90 border-l border-slate-800/80 p-5 space-y-6 z-30">
+      <!-- Logo -->
+      <div class="flex items-center space-x-3 space-x-reverse px-2">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-purple flex items-center justify-center shadow-lg shadow-brand-500/20">
+          <i data-lucide="languages" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl font-black tracking-tight text-white">لِسان<span class="text-brand-500 text-sm font-normal mr-1">.ai</span></h1>
+          <p class="text-[10px] text-slate-400 -mt-1">تعلم بالمعايشة الحقيقية</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="flex-1 space-y-1.5 pt-4" id="desktop-nav">
+        <a href="#home" onclick="switchTab('home')" class="nav-item active flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-semibold text-sm transition bg-brand-500/10 text-brand-500 border border-brand-500/20">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>الرئيسية</span>
+        </a>
+        <a href="#placement" onclick="switchTab('placement')" class="nav-item flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+          <i data-lucide="compass" class="w-5 h-5"></i>
+          <span>تحديد المستوى</span>
+        </a>
+        <a href="#words" onclick="switchTab('words')" class="nav-item flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+          <i data-lucide="book-open" class="w-5 h-5"></i>
+          <span>قاموس الكلمات</span>
+        </a>
+        <a href="#sentences" onclick="switchTab('sentences')" class="nav-item flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+          <i data-lucide="message-square" class="w-5 h-5"></i>
+          <span>جمل المواقف</span>
+        </a>
+        <a href="#listening" onclick="switchTab('listening')" class="nav-item flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+          <i data-lucide="headphones" class="w-5 h-5"></i>
+          <span>صوتيات ومسلسلات</span>
+        </a>
+        <a href="#ai-chat" onclick="switchTab('ai-chat')" class="nav-item flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+          <i data-lucide="bot" class="w-5 h-5 text-accent-purple"></i>
+          <span>المحادثة المباشرة</span>
+          <span class="bg-accent-purple/20 text-accent-purple text-[10px] font-bold px-2 py-0.5 rounded-full mr-auto">ذكاء اصطناعي</span>
+        </a>
+        <a href="#travel" onclick="switchTab('travel')" class="nav-item flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl font-medium text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition">
+          <i data-lucide="plane" class="w-5 h-5 text-accent-amber"></i>
+          <span>وضع السفر (أوفلاين)</span>
+        </a>
+      </nav>
+
+      <!-- App Install Banner / User Card -->
+      <div id="pwa-install-container" class="glass-card p-4 rounded-2xl hidden">
+        <div class="flex items-center space-x-3 space-x-reverse mb-2">
+          <i data-lucide="download-cloud" class="w-5 h-5 text-brand-500"></i>
+          <span class="text-xs font-bold text-white">ثبّت التطبيق</span>
+        </div>
+        <p class="text-[11px] text-slate-400 mb-3">استخدم "لسان" كـ تطبيق كامل بدون إنترنت!</p>
+        <button id="pwa-install-btn" class="w-full py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-brand-500/20">
+          تثبيت الآن
+        </button>
+      </div>
+    </aside>
+
+    <!-- ==================== MAIN CONTENT AREA ==================== -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      
+      <!-- Top Header Nav -->
+      <header class="sticky top-0 z-20 bg-[#0b1120]/80 backdrop-blur-xl border-b border-slate-800/80 px-4 md:px-8 py-3 flex items-center justify-between">
+        
+        <!-- Mobile Brand Logo -->
+        <div class="flex items-center space-x-2 space-x-reverse md:hidden">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-accent-purple flex items-center justify-center">
+            <i data-lucide="languages" class="w-5 h-5 text-white"></i>
+          </div>
+          <span class="text-xl font-black tracking-tight text-white">لِسان</span>
+        </div>
+
+        <!-- Left Status Metrics (Level, Streak, Daily Goal) -->
+        <div class="flex items-center space-x-3 sm:space-x-5 space-x-reverse mr-auto md:mr-0">
+          
+          <!-- User Level Badge -->
+          <div class="flex items-center space-x-2 space-x-reverse bg-slate-800/80 border border-slate-700/60 rounded-full px-3 py-1">
+            <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+            <span class="text-xs font-bold text-slate-300">المستوى:</span>
+            <span class="text-xs font-black text-brand-500 font-en">B2 (متقدم)</span>
+          </div>
+
+          <!-- Streak Counter -->
+          <div class="flex items-center space-x-1.5 space-x-reverse bg-accent-amber/10 border border-accent-amber/20 rounded-full px-3 py-1 text-accent-amber" title="أيام التكرار المتتالية">
+            <i data-lucide="flame" class="w-4 h-4 fill-accent-amber"></i>
+            <span class="text-xs font-black font-en">14 يوم</span>
+          </div>
+
+          <!-- Daily Goal Progress -->
+          <div class="hidden sm:flex items-center space-x-2 space-x-reverse bg-slate-800/80 border border-slate-700/60 rounded-full px-3 py-1">
+            <i data-lucide="target" class="w-4 h-4 text-accent-purple"></i>
+            <div class="w-16 bg-slate-700 h-2 rounded-full overflow-hidden">
+              <div class="bg-accent-purple h-full w-[65%] rounded-full"></div>
+            </div>
+            <span class="text-[11px] font-bold text-slate-300 font-en">13/20 د</span>
+          </div>
+        </div>
+
+        <!-- User Controls / Notifications -->
+        <div class="flex items-center space-x-3 space-x-reverse">
+          <button class="relative p-2.5 rounded-xl bg-slate-800/60 border border-slate-700/60 text-slate-300 hover:text-white transition">
+            <i data-lucide="bell" class="w-5 h-5"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-accent-rose"></span>
+          </button>
+          
+          <div class="flex items-center space-x-2 space-x-reverse cursor-pointer group">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=120" alt="المستخدم" class="w-9 h-9 rounded-xl object-cover ring-2 ring-brand-500/30 group-hover:ring-brand-500 transition">
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Dynamic Canvas -->
+      <main class="p-4 md:p-8 max-w-7xl w-full mx-auto space-y-8">
+
+        <!-- ==================== FEATURE 1: DASHBOARD PAGE ==================== -->
+        <section id="view-home" class="space-y-8">
+          
+          <!-- Banner Hero Card -->
+          <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-brand-dark to-slate-900 border border-slate-800 p-6 md:p-8 shadow-2xl">
+            <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-brand-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -right-10 -top-10 w-64 h-64 bg-accent-purple/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div class="space-y-2 max-w-2xl">
+                <div class="inline-flex items-center space-x-2 space-x-reverse px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-500 text-xs font-bold">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                  <span>التعلم بالمعايشة اليومية</span>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-black text-white leading-tight">
+                  أهلاً بك، أحمد! جاهز للتدرب على سيناريو <span class="text-brand-500">"طلب قهوة في نيويورك"</span> اليوم؟
+                </h2>
+                <p class="text-sm text-slate-400">
+                  بدلاً من حفظ القواعد المعزولة، ستتعلم كيف تتعامل بثقة في الحوارات الصوتية الواقعية.
+                </p>
+              </div>
+
+              <button onclick="switchTab('ai-chat')" class="pulse-glow flex items-center space-x-3 space-x-reverse px-6 py-3.5 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white rounded-2xl font-bold text-sm shadow-xl transition transform active:scale-95 shrink-0">
+                <i data-lucide="mic" class="w-5 h-5"></i>
+                <span>بدء المحادثة التفاعلية</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Overview Cards (4 Stats Grid) -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- Card 1: Time Today -->
+            <div class="glass-card p-4 rounded-2xl flex items-center space-x-4 space-x-reverse glass-card-hover">
+              <div class="w-12 h-12 rounded-xl bg-accent-purple/10 text-accent-purple flex items-center justify-center shrink-0">
+                <i data-lucide="clock" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 font-medium">وقت التعلم اليوم</p>
+                <h4 class="text-lg font-black text-white font-en">13 <span class="text-xs text-slate-400 font-sans">دقيقة</span></h4>
+              </div>
+            </div>
+
+            <!-- Card 2: Last Lesson Progress -->
+            <div class="glass-card p-4 rounded-2xl flex items-center space-x-4 space-x-reverse glass-card-hover">
+              <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center shrink-0">
+                <i data-lucide="play-circle" class="w-6 h-6"></i>
+              </div>
+              <div class="min-w-0 flex-1">
+                <p class="text-xs text-slate-400 font-medium truncate">آخر درس</p>
+                <h4 class="text-sm font-bold text-white truncate">حوارات المطار والمغادرة</h4>
+              </div>
+            </div>
+
+            <!-- Card 3: Words Mastered -->
+            <div class="glass-card p-4 rounded-2xl flex items-center space-x-4 space-x-reverse glass-card-hover">
+              <div class="w-12 h-12 rounded-xl bg-accent-amber/10 text-accent-amber flex items-center justify-center shrink-0">
+                <i data-lucide="brain" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 font-medium">مفردات متقنة (SRS)</p>
+                <h4 class="text-lg font-black text-white font-en">428 <span class="text-xs text-slate-400 font-sans">كلمة</span></h4>
+              </div>
+            </div>
+
+            <!-- Card 4: Daily Challenge -->
+            <div class="glass-card p-4 rounded-2xl flex items-center space-x-4 space-x-reverse glass-card-hover">
+              <div class="w-12 h-12 rounded-xl bg-accent-rose/10 text-accent-rose flex items-center justify-center shrink-0">
+                <i data-lucide="trophy" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <p class="text-xs text-slate-400 font-medium">التحدي اليومي</p>
+                <h4 class="text-xs font-bold text-white">تسجيل 3 جمل بصوتك</h4>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Main Feature Columns Grid (Word & Sentence of the Day) -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Widget: Word of the Day (كلمة اليوم العمقيقة) -->
+            <div class="glass-card p-6 rounded-3xl space-y-5 border border-slate-800">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                <div class="flex items-center space-x-2 space-x-reverse">
+                  <span class="p-2 rounded-lg bg-brand-500/10 text-brand-500">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                  </span>
+                  <h3 class="text-lg font-bold text-white">كلمة اليوم بالمعايشة</h3>
+                </div>
+                <span class="text-xs text-slate-400 bg-slate-800 px-3 py-1 rounded-full font-en">Level B2</span>
+              </div>
+
+              <!-- Main Word Showcase -->
+              <div class="flex items-start justify-between bg-slate-900/60 p-4 rounded-2xl border border-slate-800">
+                <div>
+                  <div class="flex items-center space-x-3 space-x-reverse">
+                    <h4 class="text-2xl font-black text-brand-500 font-en tracking-wide">Resilience</h4>
+                    <button class="p-1.5 rounded-lg bg-slate-800 hover:bg-brand-500 text-slate-300 hover:text-white transition" title="استمع للنطق">
+                      <i data-lucide="volume-2" class="w-4 h-4"></i>
+                    </button>
+                    <button class="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 transition text-[11px] font-en" title="نطق بطيء">
+                      0.5x
+                    </button>
+                  </div>
+                  <p class="text-xs text-slate-400 font-en mt-0.5">/rɪˈzɪl.jəns/ • (اسم - Noun)</p>
+                  <p class="text-base font-bold text-slate-100 mt-2">المرونة النفسية / القدرة على التعافي السريع</p>
+                </div>
+              </div>
+
+              <!-- Deep Context Details -->
+              <div class="space-y-3 text-sm">
+                <!-- Example -->
+                <div class="bg-slate-800/40 p-3 rounded-xl">
+                  <p class="text-slate-300 font-en font-semibold">"Her resilience during tough times at work was inspiring."</p>
+                  <p class="text-xs text-slate-400 mt-1">"كانت قدرتها على التعافي خلال الأوقات الصعبة في العمل ملهمة."</p>
+                </div>
+
+                <!-- Usage Context: Formal vs Casual -->
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                  <div class="bg-slate-800/30 p-2.5 rounded-xl">
+                    <span class="text-slate-400 font-bold block mb-1">الاستخدام العامي:</span>
+                    <span class="text-slate-200">"Bounce back" (الرجوع لقوتك بسرعة)</span>
+                  </div>
+                  <div class="bg-slate-800/30 p-2.5 rounded-xl">
+                    <span class="text-slate-400 font-bold block mb-1">الأخطاء الشائعة:</span>
+                    <span class="text-slate-200">الخلط بينها وبين Flexibility (المرونة الجسدية)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between pt-2">
+                <button class="text-xs font-bold text-brand-500 hover:underline flex items-center space-x-1 space-x-reverse">
+                  <span>مشاهدة فيديو قصير للموقف</span>
+                  <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                </button>
+                <button class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-xl text-xs font-bold text-slate-200 transition">
+                  إضافة لمراجعة SRS
+                </button>
+              </div>
+            </div>
+
+            <!-- Widget: Sentence of the Day (جملة اليوم الواقعية) -->
+            <div class="glass-card p-6 rounded-3xl space-y-5 border border-slate-800">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                <div class="flex items-center space-x-2 space-x-reverse">
+                  <span class="p-2 rounded-lg bg-accent-purple/10 text-accent-purple">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                  </span>
+                  <h3 class="text-lg font-bold text-white">جملة اليوم في الحياة الواقعية</h3>
+                </div>
+                <span class="text-xs text-slate-400 bg-slate-800 px-3 py-1 rounded-full">سياق: العمل والاجتماعات</span>
+              </div>
+
+              <!-- Sentence Display -->
+              <div class="bg-slate-900/60 p-4 rounded-2xl border border-slate-800 space-y-3">
+                <div class="flex items-start justify-between">
+                  <p class="text-lg font-bold text-accent-purple font-en leading-relaxed">
+                    "Could you walk me through the key updates on this project?"
+                  </p>
+                  <button class="p-2 rounded-lg bg-slate-800 hover:bg-accent-purple text-slate-300 hover:text-white transition shrink-0 mr-2">
+                    <i data-lucide="volume-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+                <p class="text-sm font-semibold text-slate-200 border-t border-slate-800/60 pt-2">
+                  "هل يمكنك أن تشرح لي خطوة بخطوة أهم التحديثات في هذا المشروع؟"
+                </p>
+              </div>
+
+              <!-- Interactive Breakdown -->
+              <div class="space-y-2">
+                <h5 class="text-xs font-bold text-slate-400">تقسيم وتفكيك التعبير:</h5>
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 rounded-xl bg-slate-800/80 text-xs text-slate-300 font-en border border-slate-700/50">
+                    <strong class="text-brand-500">Walk me through:</strong> اشرح لي بالتفصيل
+                  </span>
+                  <span class="px-3 py-1.5 rounded-xl bg-slate-800/80 text-xs text-slate-300 font-en border border-slate-700/50">
+                    <strong class="text-brand-500">Key updates:</strong> المستجدات الرئيسية
+                  </span>
+                </div>
+              </div>
+
+              <!-- Record & Speech Practice Button -->
+              <div class="pt-2">
+                <button class="w-full py-3 bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-2xl flex items-center justify-center space-x-2 space-x-reverse text-xs font-bold text-white transition">
+                  <i data-lucide="mic" class="w-4 h-4 text-accent-rose"></i>
+                  <span>تدرب على نطق هذه الجملة وقارن صوتك</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Section: Daily Immersion Challenge (تحدي اليوم) -->
+          <div class="glass-card p-6 rounded-3xl space-y-4 border border-slate-800 bg-gradient-to-br from-brand-card via-brand-card to-slate-900">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="w-10 h-10 rounded-xl bg-accent-amber/20 text-accent-amber flex items-center justify-center font-bold">
+                  ⚡
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-white">تحدي الغمر اليومي (15 دقيقة)</h3>
+                  <p class="text-xs text-slate-400">أكمل التحدي للحفاظ على سلسلة أيامك 🔥 واستلم 50 نقطة خبرة</p>
+                </div>
+              </div>
+              <span class="text-xs font-bold text-accent-amber bg-accent-amber/10 border border-accent-amber/20 px-3 py-1.5 rounded-xl">متبقي 6 ساعات</span>
+            </div>
+
+            <!-- Steps Progress -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-brand-500/40 flex items-center space-x-3 space-x-reverse">
+                <i data-lucide="check-circle" class="w-5 h-5 text-brand-500 shrink-0"></i>
+                <span class="text-xs font-semibold text-slate-200">1. استمع لبودكاست 3 دقائق</span>
+              </div>
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center space-x-3 space-x-reverse">
+                <i data-lucide="circle" class="w-5 h-5 text-slate-600 shrink-0"></i>
+                <span class="text-xs font-semibold text-slate-300">2. تحدث مع الذكاء الاصطناعي (دقيقة)</span>
+              </div>
+              <div class="p-3 rounded-2xl bg-slate-900/80 border border-slate-800 flex items-center space-x-3 space-x-reverse">
+                <i data-lucide="circle" class="w-5 h-5 text-slate-600 shrink-0"></i>
+                <span class="text-xs font-semibold text-slate-300">3. مراجعة 10 كلمات بـ SRS</span>
+              </div>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- Placeholder Section Containers for upcoming features -->
+        <section id="view-placement" class="hidden space-y-6">
+          <div class="glass-card p-8 rounded-3xl text-center space-y-4">
+            <i data-lucide="compass" class="w-12 h-12 text-brand-500 mx-auto"></i>
+            <h2 class="text-2xl font-black text-white">2. اختبار تحديد المستوى الذكي</h2>
+            <p class="text-sm text-slate-400 max-w-lg mx-auto">سيتم بناء هذا القسم في الخطوة القادمة (اختبار القراءة، الاستماع، القواعد، الحوار الصوتية والخارطة Roadmap).</p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ==================== MOBILE BOTTOM NAVIGATION ==================== -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0b1120]/95 backdrop-blur-xl border-t border-slate-800/80 px-4 py-2 flex items-center justify-around">
+    <button onclick="switchTab('home')" class="flex flex-col items-center space-y-1 text-brand-500">
+      <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+      <span class="text-[10px] font-bold">الرئيسية</span>
+    </button>
+    <button onclick="switchTab('words')" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-white">
+      <i data-lucide="book-open" class="w-5 h-5"></i>
+      <span class="text-[10px] font-medium">الكلمات</span>
+    </button>
+    <button onclick="switchTab('ai-chat')" class="flex flex-col items-center space-y-1 text-accent-purple">
+      <div class="w-10 h-10 -mt-5 rounded-full bg-accent-purple text-white flex items-center justify-center shadow-lg shadow-accent-purple/30">
+        <i data-lucide="bot" class="w-5 h-5"></i>
+      </div>
+      <span class="text-[10px] font-bold">محادثة AI</span>
+    </button>
+    <button onclick="switchTab('sentences')" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-white">
+      <i data-lucide="message-square" class="w-5 h-5"></i>
+      <span class="text-[10px] font-medium">الجمل</span>
+    </button>
+
+    <button onclick="switchTab('travel')" class="flex flex-col items-center space-y-1 text-slate-400 hover:text-white">
+      <i data-lucide="plane" class="w-5 h-5"></i>
+      <span class="text-[10px] font-medium">السفر</span>
+    </button>
+  </div>
+
+  <!-- ==================== JAVASCRIPT APP CORE ==================== -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Tab Navigation Switcher
+    function switchTab(tabId) {
+      const views = ['home', 'placement'];
+      views.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      const activeView = document.getElementById(`view-${tabId}`);
+      if (activeView) {
+        activeView.classList.remove('hidden');
+      }
+
+      // Re-initialize icons
+      lucide.createIcons();
+    }
+
+    // PWA Service Worker Registration & Deferred Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const installContainer = document.getElementById('pwa-install-container');
+      if (installContainer) installContainer.classList.remove('hidden');
+    });
+
+    const installBtn = document.getElementById('pwa-install-btn');
+    if (installBtn) {
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            document.getElementById('pwa-install-container').classList.add('hidden');
+          }
+          deferredPrompt = null;
+        }
+      });
+    }
+
+    // Register SW
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+          console.log('Lisan Service Worker registered:', reg);
+        }).catch(err => {
+          console.log('SW registration failed:', err);
+        });
+      });
+    }
+  </script>
+</body>
+</html>
