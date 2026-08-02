@@ -526,5 +526,204 @@
       });
     }
   </script>
+  <!-- ==================== باقي أقسام الميزات الـ 24 ==================== -->
+        
+        <!-- 2. اختبار تحديد المستوى -->
+        <section id="view-placement" class="hidden space-y-6"></section>
+
+        <!-- 3. قاموس الكلمات والتحليل العميق -->
+        <section id="view-words" class="hidden space-y-6"></section>
+
+        <!-- 4. جمل المواقف الواقعية -->
+        <section id="view-sentences" class="hidden space-y-6"></section>
+
+        <!-- 5. الصوتيات والمسلسلات -->
+        <section id="view-listening" class="hidden space-y-6"></section>
+
+        <!-- 6. القارئ التفاعلي -->
+        <section id="view-reader" class="hidden space-y-6"></section>
+
+        <!-- 7. تقييم النطق والصوت -->
+        <section id="view-speech" class="hidden space-y-6"></section>
+
+        <!-- 8. محادثة الذكاء الاصطناعي AI Roleplay -->
+        <section id="view-ai-chat" class="hidden space-y-6"></section>
+
+        <!-- 9. مصحح الكتابة والمقالات -->
+        <section id="view-writing" class="hidden space-y-6"></section>
+
+        <!-- 10. القواعد البصرية -->
+        <section id="view-grammar" class="hidden space-y-6"></section>
+
+        <!-- 11. المراجعة الذكية SRS -->
+        <section id="view-srs" class="hidden space-y-6"></section>
+
+        <!-- 12. مركز الألعاب والتمارين -->
+        <section id="view-games" class="hidden space-y-6"></section>
+
+        <!-- 13. لوحة الصدارة والتحديات -->
+        <section id="view-leaderboard" class="hidden space-y-6"></section>
+
+        <!-- 14. الإنجازات والأوسمة -->
+        <section id="view-achievements" class="hidden space-y-6"></section>
+
+        <!-- 15. القاموس الذكي الشامل -->
+        <section id="view-dictionary" class="hidden space-y-6"></section>
+
+        <!-- 16. مقارنة الموجات الصوتية -->
+        <section id="view-waveform" class="hidden space-y-6"></section>
+
+        <!-- 17. التعلم بالأفلام والسينما -->
+        <section id="view-movies" class="hidden space-y-6"></section>
+
+        <!-- 18. التعلم بالأغاني والموسيقى -->
+        <section id="view-songs" class="hidden space-y-6"></section>
+
+        <!-- 19. وضع السفر (أوفلاين) -->
+        <section id="view-travel" class="hidden space-y-6"></section>
+
+        <!-- 20. مجتمع المتعلمين -->
+        <section id="view-community" class="hidden space-y-6"></section>
+
+        <!-- 21. الإحصائيات والنمو اللغوي -->
+        <section id="view-analytics" class="hidden space-y-6"></section>
+
+        <!-- 22. مركز تنزيل الدروس أوفلاين -->
+        <section id="view-downloader" class="hidden space-y-6"></section>
+
+        <!-- 23. لوحة تحكم المشرف Admin -->
+        <section id="view-admin" class="hidden space-y-6"></section>
+
+        <!-- 24. وضع الغمر الشامل والميزات الفريدة -->
+        <section id="view-immersion" class="hidden space-y-6"></section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ==================== استدعاء كافة ملفات الخدمات الـ 9 بالترتيب ==================== -->
+  <script src="js/modules-part1.js"></script>
+  <script src="js/modules-part2.js"></script>
+  <script src="js/modules-part3.js"></script>
+  <script src="js/modules-part4.js"></script>
+  <script src="js/modules-part5.js"></script>
+  <script src="js/modules-part6.js"></script>
+  <script src="js/modules-part7.js"></script>
+  <script src="js/modules-part8.js"></script>
+  <script src="js/modules-part9.js"></script>
+
+  <!-- ==================== محرك التبديل الرئيسي والربط الشامل ==================== -->
+  <script>
+    // Initialize Lucide Icons
+    if (window.lucide) lucide.createIcons();
+
+    // Tab Switcher Controller للربط بين الشاشات والـ JavaScript Modules
+    function switchTab(tabId) {
+      // 1. إخفاء جميع الشاشات
+      const allViews = [
+        'home', 'placement', 'words', 'sentences', 'listening', 'reader',
+        'speech', 'ai-chat', 'writing', 'grammar', 'srs', 'games',
+        'leaderboard', 'achievements', 'dictionary', 'waveform',
+        'movies', 'songs', 'travel', 'community', 'analytics',
+        'downloader', 'admin', 'immersion'
+      ];
+
+      allViews.forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.add('hidden');
+      });
+
+      // 2. إظهار الشاشة المطلوبة وتفعيل الموديول الخاص بها تلقائياً
+      const activeView = document.getElementById(`view-${tabId}`);
+      if (activeView) {
+        activeView.classList.remove('hidden');
+
+        // تشغيل المحرك المخصص لكل ميزة عند فتح شاشتها
+        switch(tabId) {
+          case 'placement':
+            if (window.PlacementEngine) window.PlacementEngine.open();
+            break;
+          case 'words':
+            if (window.DeepVocab) activeView.innerHTML = window.DeepVocab.renderWordView('w1');
+            break;
+          case 'sentences':
+            if (window.SentencesModule) activeView.innerHTML = window.SentencesModule.renderCategoryView('airport');
+            break;
+          case 'listening':
+            if (window.AudioModule) activeView.innerHTML = window.AudioModule.renderPlayer();
+            break;
+          case 'reader':
+            if (window.ReaderModule) activeView.innerHTML = window.ReaderModule.renderReader();
+            break;
+          case 'speech':
+            if (window.SpeechEvaluator) activeView.innerHTML = window.SpeechEvaluator.renderSpeechPracticeView();
+            break;
+          case 'ai-chat':
+            if (window.AIRoleplay) activeView.innerHTML = window.AIRoleplay.renderChatRoom();
+            break;
+          case 'writing':
+            if (window.WritingModule) activeView.innerHTML = window.WritingModule.renderWritingView();
+            break;
+          case 'grammar':
+            if (window.GrammarModule) activeView.innerHTML = window.GrammarModule.renderGrammarView();
+            break;
+          case 'srs':
+            if (window.SRSModule) activeView.innerHTML = window.SRSModule.renderSRSView();
+            break;
+          case 'games':
+            if (window.GamingModule) activeView.innerHTML = window.GamingModule.renderGamesHubView();
+            break;
+          case 'leaderboard':
+            if (window.Leaderboard) activeView.innerHTML = window.Leaderboard.renderLeaderboardView();
+            break;
+          case 'achievements':
+            if (window.Achievements) activeView.innerHTML = window.Achievements.renderAchievementsView();
+            break;
+          case 'dictionary':
+            if (window.DictionaryModule) activeView.innerHTML = window.DictionaryModule.renderDictionaryView();
+            break;
+          case 'waveform':
+            if (window.WaveformMatcher) activeView.innerHTML = window.WaveformMatcher.renderWaveformView();
+            break;
+          case 'movies':
+            if (window.MovieModule) activeView.innerHTML = window.MovieModule.renderMovieView();
+            break;
+          case 'songs':
+            if (window.SongModule) activeView.innerHTML = window.SongModule.renderSongView();
+            break;
+          case 'travel':
+            if (window.TravelModule) activeView.innerHTML = window.TravelModule.renderTravelView();
+            break;
+          case 'community':
+            if (window.CommunityModule) activeView.innerHTML = window.CommunityModule.renderCommunityView();
+            break;
+          case 'analytics':
+            if (window.Analytics) activeView.innerHTML = window.Analytics.renderAnalyticsView();
+            break;
+          case 'downloader':
+            if (window.OfflineDownloader) activeView.innerHTML = window.OfflineDownloader.renderDownloaderView();
+            break;
+          case 'admin':
+            if (window.AdminModule) activeView.innerHTML = window.AdminModule.renderAdminView();
+            break;
+          case 'immersion':
+            if (window.ImmersionModule) activeView.innerHTML = window.ImmersionModule.renderImmersionView();
+            break;
+        }
+      }
+
+      // 3. تحديث الأيقونات البصرية
+      if (window.lucide) lucide.createIcons();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(err => console.log('SW registration note:', err));
+      });
+    }
+  </script>
+
 </body>
 </html>
